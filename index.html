@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Official SSC 2027 Batch Name Voting for SOS Hermann Gmeiner College, Bogura" />
+    <title>SSC 2027 Batch Name Voting | SOS Hermann Gmeiner College</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #1a202c;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .school-name {
+            font-size: 1.1rem;
+            color: #4a5568;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #718096;
+            font-style: italic;
+        }
+
+        .realtime-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #48bb78;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .realtime-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .notice {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .notice strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        .notice ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .notice li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .notice li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #2d3748;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            font-weight: 600;
+        }
+
+        .voting-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .voting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            gap: 15px;
+        }
+
+        .voting-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+
+        .name-box {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .batch-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d3748;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .meaning {
+            font-size: 0.95rem;
+            color: #4a5568;
+            font-style: italic;
+            display: block;
+        }
+
+        .vote-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .vote-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .vote-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .vote-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .results-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .result-item.updated {
+            animation: highlight 1s ease;
+        }
+
+        @keyframes highlight {
+
+            0%,
+            100% {
+                background: white;
+            }
+
+            50% {
+                background: #f0fff4;
+            }
+        }
+
+        .result-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+            transition: width 0.5s ease;
+            z-index: 0;
+        }
+
+        .result-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+
+        .result-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.05rem;
+        }
+
+        .result-stats {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .result-count {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .result-percentage {
+            font-size: 0.9rem;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #718096;
+            font-style: italic;
+        }
+
+        .status-message {
+            background: #f0fff4;
+            border: 2px solid #68d391;
+            color: #22543d;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .error-message {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            color: #742a2a;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .loading-message {
+            background: #edf2f7;
+            border: 2px solid #cbd5e0;
+            color: #2d3748;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px 15px;
+                border-radius: 12px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .school-name {
+                font-size: 1rem;
+            }
+
+            .subtitle {
+                font-size: 0.85rem;
+            }
+
+            .notice {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+
+            .notice strong {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .voting-item {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 14px;
+                gap: 12px;
+            }
+
+            .batch-name {
+                font-size: 1rem;
+            }
+
+            .meaning {
+                font-size: 0.88rem;
+            }
+
+            .vote-btn {
+                width: 100%;
+                padding: 12px;
+            }
+
+            .result-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .result-stats {
+                gap: 10px;
+            }
+
+            .result-name {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .school-name {
+                font-size: 0.95rem;
+            }
+
+            .notice {
+                padding: 12px;
+            }
+
+            .voting-item {
+                padding: 12px;
+            }
+
+            .batch-name {
+                font-size: 0.95rem;
+            }
+
+            .meaning {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 SSC 2027 Batch Name Voting</h1>
+            <div class="school-name">SOS Hermann Gmeiner College, Bogura</div>
+            <div class="subtitle">Official Voting Portal - Real-Time Results</div>
+            <div class="realtime-badge">
+                <span class="realtime-dot"></span>
+                Live Updates Active
+            </div>
+        </header>
+
+        <div class="notice">
+            <strong>📋 Voting Rules & Guidelines</strong>
+            <ul>
+                <li>Each student can vote only once per device/browser</li>
+                <li>Click the "Vote" button next to your preferred batch name</li>
+                <li>Voting deadline: <b>12:00 AM (Friday)</b></li>
+                <li>Results update automatically in real-time</li>
+                <li>All votes are stored securely in the cloud</li>
+            </ul>
+        </div>
+
+        <div id="statusMessage"></div>
+
+        <h2 class="section-title">🗳️ Cast Your Vote</h2>
+        <ul class="voting-list" id="nameList"></ul>
+
+        <h2 class="section-title">📊 Live Results</h2>
+        <ul class="results-list" id="resultList"></ul>
+
+        <footer>
+            <div>© 2027 SSC Batch | SOS Hermann Gmeiner College, Bogura</div>
+            <div style="margin-top: 5px; font-size: 0.85rem;">Official Voting Page | All Rights Reserved</div>
+        </footer>
+    </div>
+
+    <!-- Supabase SDK via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://wpcsnfnlogaobuasmegt.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_rklnD-kOWrWBg4uT0L1Kzg_ZCSx7yXS';
+
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Batch names with Bangla meanings
+        const names = [
+            { name: "Astric", meaning: "তারার মতো উজ্জ্বল ও আলোকিত" },
+            { name: "Aurelius", meaning: "সোনালি গৌরব ও রাজকীয় মর্যাদা" },
+            { name: "Ascendants", meaning: "সবার উপরে উঠে যাওয়ার প্রতীক" },
+            { name: "Eminence", meaning: "শ্রেষ্ঠত্ব ও সম্মানজনক অবস্থান" },
+            { name: "Vanguards", meaning: "ভবিষ্যতের পথপ্রদর্শক" },
+            { name: "Aetherion", meaning: "অনন্য শক্তি ও সময়ের ঊর্ধ্বে অবস্থান" },
+            { name: "Primordia", meaning: "মহান কিছুর সূচনা ও ভিত্তি" },
+            { name: "Regal Ascendants", meaning: "রাজকীয় শক্তিতে শীর্ষে ওঠা" },
+            { name: "Eternal Zeniths", meaning: "চিরস্থায়ী সাফল্যের শিখর" },
+            { name: "Celestial Sovereigns", meaning: "আকাশসম মর্যাদা ও সর্বোচ্চ ক্ষমতা" },
+            { name: "Scholastica", meaning: "জ্ঞান, শিক্ষা ও মেধার প্রতীক" },
+            { name: "Pioneers", meaning: "নতুন পথের সূচনাকারী" },
+            { name: "HGC Leavers", meaning: "HGC থেকে যাত্রা শেষ করা গর্বিত ব্যাচ" },
+            { name: "Achievers", meaning: "সাফল্য অর্জনে দৃঢ়প্রতিজ্ঞ" },
+            { name: "Pinnacle", meaning: "সাফল্যের সর্বোচ্চ শিখর" },
+            { name: "Meridians", meaning: "দিকনির্দেশনা ও ভারসাম্যের প্রতীক" },
+            { name: "Allied", meaning: "ঐক্যবদ্ধ ও একসাথে অগ্রসর হওয়া" },
+            { name: "Trouvaille", meaning: "হঠাৎ পাওয়া দামী আবিষ্কার" },
+            { name: "Demiurgic", meaning: "সৃষ্টিশীল শক্তি ও নতুন গঠনের প্রতীক" },
+            { name: "Unity Pioneers", meaning: "ঐক্যের মাধ্যমে নতুন পথের সূচনা" },
+            { name: "Eclipse Elites", meaning: "শ্রেষ্ঠত্বে সবার উপরে ছায়া ফেলা" },
+            { name: "Odyssey Alliance", meaning: "দীর্ঘ যাত্রায় একসাথে এগিয়ে চলা" },
+            { name: "Evigheden", meaning: "চিরস্থায়িত্ব ও অবিনাশী শক্তি" }
+        ];
+
+        // DOM elements
+        const nameList = document.getElementById("nameList");
+        const resultList = document.getElementById("resultList");
+        const statusMessage = document.getElementById("statusMessage");
+
+        // Check if user has already voted (localStorage protection)
+        let hasVoted = localStorage.getItem("ssc2027_voted") === "true";
+
+        // Store for current vote counts
+        let currentVotes = {};
+
+        // Initialize the voting interface
+        async function init() {
+            showLoadingMessage("🔄 Loading voting data...");
+
+            renderVotingList();
+
+            if (hasVoted) {
+                const votedFor = localStorage.getItem("ssc2027_voted_for");
+                showStatusMessage(`✅ You have already cast your vote${votedFor ? ` for "${votedFor}"` : ''}. Thank you for participating!`);
+                disableAllButtons();
+            }
+
+            // Load initial results
+            await loadResults();
+
+            // Subscribe to real-time updates
+            subscribeToRealtimeUpdates();
+
+            hideLoadingMessage();
+        }
+
+        // Subscribe to Supabase Realtime channel
+        function subscribeToRealtimeUpdates() {
+            const channel = supabaseClient
+                .channel('votes_2027_changes')
+                .on(
+                    'postgres_changes',
+                    {
+                        event: '*',
+                        schema: 'public',
+                        table: 'votes_2027'
+                    },
+                    (payload) => {
+                        console.log('Real-time update received:', payload);
+                        loadResults(true); // true = highlight changes
+                    }
+                )
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        console.log('✅ Real-time subscription active');
+                    }
+                });
+        }
+
+        // Load results from Supabase
+        async function loadResults(highlightChanges = false) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('votes_2027')
+                    .select('batch_name, vote_count');
+
+                if (error) throw error;
+
+                // Convert to object format
+                const votes = {};
+                names.forEach(item => {
+                    votes[item.name] = 0;
+                });
+
+                if (data) {
+                    data.forEach(row => {
+                        votes[row.batch_name] = row.vote_count || 0;
+                    });
+                }
+
+                currentVotes = votes;
+                renderResults(votes, highlightChanges);
+            } catch (error) {
+                console.error('Error loading results:', error);
+                showErrorMessage('⚠️ Could not load results. Please check your internet connection.');
+            }
+        }
+
+        // Render the list of batch names with vote buttons
+        function renderVotingList() {
+            nameList.innerHTML = "";
+
+            names.forEach((item, index) => {
+                const li = document.createElement("li");
+                li.className = "voting-item";
+
+                li.innerHTML = `
+          <div class="name-box">
+            <span class="batch-name">${index + 1}. ${item.name}</span>
+            <span class="meaning">${item.meaning}</span>
+          </div>
+          <button class="vote-btn" data-name="${escapeHtml(item.name)}">
+            Vote
+          </button>
+        `;
+
+                nameList.appendChild(li);
+            });
+
+            // Add event listeners to all vote buttons
+            document.querySelectorAll('.vote-btn').forEach(btn => {
+                btn.addEventListener('click', () => castVote(btn.dataset.name));
+            });
+
+            // Disable buttons if already voted
+            if (hasVoted) {
+                disableAllButtons();
+            }
+        }
+
+        // Handle vote submission with upsert logic
+        async function castVote(batchName) {
+            // Check if user has already voted
+            if (hasVoted || localStorage.getItem("ssc2027_voted") === "true") {
+                alert("⚠️ You have already voted!\n\nEach person can only vote once per device/browser.");
+                return;
+            }
+
+            // Confirm vote
+            const confirmVote = confirm(`Are you sure you want to vote for "${batchName}"?\n\nYou cannot change your vote after submission.`);
+
+            if (!confirmVote) {
+                return;
+            }
+
+            try {
+                showLoadingMessage("📤 Submitting your vote...");
+
+                // First, check if the batch_name already exists
+                const { data: existingData, error: fetchError } = await supabaseClient
+                    .from('votes_2027')
+                    .select('batch_name, vote_count')
+                    .eq('batch_name', batchName)
+                    .single();
+
+                if (fetchError && fetchError.code !== 'PGRST116') {
+                    // PGRST116 = no rows returned, which is fine
+                    throw fetchError;
+                }
+
+                let upsertError;
+
+                if (existingData) {
+                    // Record exists, increment the vote count
+                    const { error } = await supabaseClient
+                        .from('votes_2027')
+                        .update({ vote_count: existingData.vote_count + 1 })
+                        .eq('batch_name', batchName);
+
+                    upsertError = error;
+                } else {
+                    // Record doesn't exist, insert new record with vote_count = 1
+                    const { error } = await supabaseClient
+                        .from('votes_2027')
+                        .insert({ batch_name: batchName, vote_count: 1 });
+
+                    upsertError = error;
+                }
+
+                if (upsertError) throw upsertError;
+
+                // Mark as voted locally (voter protection)
+                localStorage.setItem("ssc2027_voted", "true");
+                localStorage.setItem("ssc2027_voted_for", batchName);
+                hasVoted = true;
+
+                // Update UI
+                showStatusMessage(`✅ Success! Your vote for "${batchName}" has been recorded.`);
+                disableAllButtons();
+
+                // Reload results
+                await loadResults(true);
+
+                // Scroll to results
+                setTimeout(() => {
+                    document.querySelector('.results-list').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }, 500);
+
+            } catch (error) {
+                console.error("Error submitting vote:", error);
+                showErrorMessage("❌ Error submitting vote. Please check your internet connection and try again.");
+                hideLoadingMessage();
+            }
+        }
+
+        // Disable all vote buttons
+        function disableAllButtons() {
+            document.querySelectorAll(".vote-btn").forEach(btn => {
+                btn.disabled = true;
+                btn.textContent = "Voted";
+            });
+        }
+
+        // Render live results with optional highlight animation
+        function renderResults(votes, highlightChanges = false) {
+            resultList.innerHTML = "";
+
+            // Calculate total votes
+            const totalVotes = Object.values(votes).reduce((sum, count) => sum + count, 0);
+
+            if (totalVotes === 0) {
+                resultList.innerHTML = '<li class="no-results">No votes have been cast yet. Be the first to vote!</li>';
+                return;
+            }
+
+            // Sort by vote count (descending)
+            const sortedVotes = Object.entries(votes)
+                .filter(([name, count]) => count > 0) // Only show items with votes
+                .sort((a, b) => b[1] - a[1]);
+
+            // Render each result
+            sortedVotes.forEach(([name, count], index) => {
+                const percentage = ((count / totalVotes) * 100).toFixed(1);
+
+                const li = document.createElement("li");
+                li.className = "result-item";
+
+                // Add highlight animation if this is a real-time update
+                if (highlightChanges) {
+                    li.classList.add('updated');
+                }
+
+                li.innerHTML = `
+          <div class="result-bar" style="width: ${percentage}%"></div>
+          <div class="result-content">
+            <span class="result-name">${index + 1}. ${escapeHtml(name)}</span>
+            <div class="result-stats">
+              <span class="result-count">${count} vote${count !== 1 ? 's' : ''}</span>
+              <span class="result-percentage">(${percentage}%)</span>
+            </div>
+          </div>
+        `;
+
+                resultList.appendChild(li);
+            });
+        }
+
+        // Show status message
+        function showStatusMessage(message) {
+            statusMessage.innerHTML = `<div class="status-message">${message}</div>`;
+        }
+
+        // Show error message
+        function showErrorMessage(message) {
+            statusMessage.innerHTML = `<div class="error-message">${message}</div>`;
+        }
+
+        // Show loading message
+        function showLoadingMessage(message) {
+            statusMessage.innerHTML = `<div class="loading-message">${message}</div>`;
+        }
+
+        // Hide loading message
+        function hideLoadingMessage() {
+            const loadingMsg = statusMessage.querySelector('.loading-message');
+            if (loadingMsg) {
+                loadingMsg.remove();
+            }
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize on page load
+        init();
+    </script>
+</body>
+
+</html>
